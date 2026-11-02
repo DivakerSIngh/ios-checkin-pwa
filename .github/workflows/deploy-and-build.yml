@@ -133,7 +133,8 @@ jobs:
       - name: Build Unsigned iOS App & Package into .ipa
         working-directory: ios/App
         run: |
-          xcodebuild -project App.xcodeproj \
+          pod install
+          xcodebuild -workspace App.xcworkspace \
             -scheme App \
             -configuration Release \
             -sdk iphoneos \
