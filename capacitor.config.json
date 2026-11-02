@@ -1,0 +1,9 @@
+{
+  "appId": "com.cdivaker.geocheck",
+  "appName": "GeoCheck",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}

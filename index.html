@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>GeoCheck iOS</title>
+
+  <!-- iOS PWA Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="GeoCheck" />
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/684/684908.png" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- ================= PAGE 1: LOGIN ================= -->
+    <section id="page-login" class="page active">
+      <div class="auth-header">
+        <div class="app-icon-badge">📍</div>
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Sign in to mark your attendance within 100m</p>
+      </div>
+
+      <form id="form-login" class="ios-card form-card" autocomplete="off">
+        <div class="input-group">
+          <label for="login-email">Email or Mobile</label>
+          <input type="text" id="login-email" placeholder="rahul@example.com" required />
+        </div>
+        <div class="input-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+      </form>
+
+      <div class="auth-footer">
+        <span>Don't have an account?</span>
+        <button type="button" class="btn-link" onclick="navigateTo('register')">Create Account</button>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 2: REGISTER ================= -->
+    <section id="page-register" class="page">
+      <div class="auth-header">
+        <div class="app-icon-badge">📝</div>
+        <h1>Create Account</h1>
+        <p class="subtitle">Register once on this device to start</p>
+      </div>
+
+      <form id="form-register" class="ios-card form-card" autocomplete="off">
+        <div class="input-group">
+          <label for="reg-name">Full Name</label>
+          <input type="text" id="reg-name" placeholder="Rahul Sharma" required />
+        </div>
+        <div class="input-group">
+          <label for="reg-empid">Employee / User ID</label>
+          <input type="text" id="reg-empid" placeholder="EMP-101" required />
+        </div>
+        <div class="input-group">
+          <label for="reg-email">Email or Mobile</label>
+          <input type="text" id="reg-email" placeholder="rahul@example.com" required />
+        </div>
+        <div class="input-group">
+          <label for="reg-password">Password</label>
+          <input type="password" id="reg-password" placeholder="Min 4 characters" minlength="4" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+
+      <div class="auth-footer">
+        <span>Already registered?</span>
+        <button type="button" class="btn-link" onclick="navigateTo('login')">Sign In</button>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 3: CHECK-IN / CHECK-OUT ================= -->
+    <section id="page-dashboard" class="page">
+      <!-- Top Navigation Bar -->
+      <header class="ios-navbar">
+        <div>
+          <span class="greeting" id="user-greeting">Hello, User</span>
+          <span class="emp-badge" id="user-empid">EMP-000</span>
+        </div>
+        <button type="button" class="btn-logout" onclick="logoutUser()">Logout</button>
+      </header>
+
+      <!-- Live Clock & Status Card -->
+      <div class="ios-card clock-card">
+        <div class="live-time" id="live-clock">09:00:00 AM</div>
+        <div class="live-date" id="live-date">Monday, Nov 2</div>
+        <div class="status-pill" id="attendance-status-pill">Not Checked In</div>
+      </div>
+
+      <!-- Geofence Radar Card -->
+      <div class="ios-card geo-card">
+        <div class="geo-header">
+          <div>
+            <h3>Target Location</h3>
+            <p id="target-coords-label" class="coords-text">Loading...</p>
+          </div>
+          <span id="radius-badge" class="badge-neutral">Max 100m</span>
+        </div>
+
+        <div class="distance-meter">
+          <div class="distance-circle" id="distance-circle">
+            <span id="distance-value">--</span>
+            <small>meters away</small>
+          </div>
+        </div>
+
+        <p id="geo-message" class="geo-status-msg">Tap "Refresh GPS" or Check-In to verify location.</p>
+
+        <div class="geo-actions">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="checkLiveDistance()">
+            🔄 Refresh GPS
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="setMyLocationAsTarget()" title="Helpful for testing right now!">
+            📌 Set Here as Office (Test)
+          </button>
+        </div>
+      </div>
+
+      <!-- Check-In / Check-Out Action Buttons -->
+      <div class="action-grid">
+        <button type="button" id="btn-checkin" class="btn btn-checkin" onclick="handleAttendance('CHECK-IN')">
+          <span class="btn-icon">🟢</span>
+          <span>Check In</span>
+        </button>
+        <button type="button" id="btn-checkout" class="btn btn-checkout" onclick="handleAttendance('CHECK-OUT')">
+          <span class="btn-icon">🔴</span>
+          <span>Check Out</span>
+        </button>
+      </div>
+
+      <!-- Attendance Logs -->
+      <div class="ios-card history-card">
+        <div class="history-header">
+          <h3>Recent Activity</h3>
+          <button type="button" class="btn-clear" onclick="clearHistory()">Clear</button>
+        </div>
+        <ul id="history-list" class="history-list">
+          <li class="empty-state">No check-in/out records yet.</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

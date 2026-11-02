@@ -1,0 +1,18 @@
+{
+  "name": "GeoCheck - Attendance App",
+  "short_name": "GeoCheck",
+  "description": "Static iOS Check-in & Check-out PWA within 100m radius",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F2F2F7",
+  "theme_color": "#007AFF",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

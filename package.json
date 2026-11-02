@@ -1,0 +1,17 @@
+{
+  "name": "ios-checkin-pwa",
+  "version": "1.0.0",
+  "description": "GeoCheck - Web App (PWA) + Android APK + iOS IPA with Live Auto-Update",
+  "scripts": {
+    "build": "node build.js",
+    "sync": "npm run build && npx cap sync"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/ios": "^6.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
+  }
+}
